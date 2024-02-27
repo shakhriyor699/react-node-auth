@@ -1,0 +1,32 @@
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+
+dotenv.config()
+
+const PORT = process.env.PORT || 5000
+const app = express()
+
+app.use(express.json())
+app.use(cors())
+app.use(cookieParser())
+
+
+
+const start = async () => {
+  try {
+    await mongoose.connect(process.env.DB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    })
+    app.listen(PORT, () => {
+      console.log('Server is running on port 5000');
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+start()
