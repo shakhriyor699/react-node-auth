@@ -3,6 +3,8 @@ import UserModel from '../models/user-model.js'
 import bcrypt from 'bcrypt'
 import uuid from 'uuid'
 import mailService from './mail.service.js'
+import tokenService from './token-service.js'
+import userDto from '../dtos/user-dto.js'
 
 class UserService {
   async registration(email, password) {
@@ -13,8 +15,10 @@ class UserService {
     const hashPassword = await bcrypt.hash(password, 3)
     const activationLink = uuid.v4() // выдает некоторую строку
     const user = await UserModel.create({ email, password: hashPassword, activationLink })
-
-    return user
+    await mailService.sendActivationMail(email, activationLink)
+    const tokens = tokenService.generatetokens({ _id: user._id })
+    const userDto = new userDto(user)
+    // return user
   }
 }
 

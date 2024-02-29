@@ -1,5 +1,7 @@
 class MailService {
-
+  async sendActivationMail(email, link) {
+    
+  }
 }
 
 
