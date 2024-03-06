@@ -12,6 +12,14 @@ const LoginForm: React.FC = (): JSX.Element => {
         type="text"
         placeholder='Email'
       />
+      <input
+        onChange={(e) => setPassword(e.target.value)}
+        value={password}
+        type="password"
+        placeholder='Пароль'
+      />
+      <button>Логин</button>
+      <button>Регистрация</button>
     </div>
   )
 }

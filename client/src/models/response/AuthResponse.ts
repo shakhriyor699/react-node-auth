@@ -1,9 +1,7 @@
+import { IUser } from "./User"
+
 export interface AuthResponse {
   accessToken: string
   refreshToken: string
-  user: {
-    email: string
-    id: number
-    isActivated: boolean
-  }
+  user: IUser
 }
