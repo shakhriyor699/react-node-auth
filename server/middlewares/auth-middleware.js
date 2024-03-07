@@ -1,5 +1,5 @@
-import ApiError from "../exceptions/api.error"
-import tokenService from "../service/token-service"
+import ApiError from "../exceptions/api-error.js"
+import tokenService from "../service/token-service.js"
 
 
 export default (req, res, next) => {

@@ -5,7 +5,7 @@ import { v4 as uuid4 } from 'uuid';
 import mailService from './mail-service.js'
 import tokenService from './token-service.js'
 import UserDto from '../dtos/user-dto.js'
-import ApiError from '../exceptions/api.error.js';
+import ApiError from '../exceptions/api-error.js';
 
 class UserService {
   async registration(email, password) {
@@ -13,9 +13,9 @@ class UserService {
     if (candidate) {
       throw ApiError.BadRequest('User already exist')
     }
-    const hashPassword = await bcrypt.hash(password, 10)
+    // const hashPassword = await bcrypt.hash(password, 10)
     const activationLink = uuid4() // выдает некоторую строку
-    const user = await UserModel.create({ email, password: hashPassword, activationLink })
+    const user = await UserModel.create({ email, password, activationLink })
     await mailService.sendActivationMail(email, `${process.env.API_URL}/api/activate/${activationLink}`)
     const userDto = new UserDto(user)
     const tokens = tokenService.generateTokens({ ...userDto })

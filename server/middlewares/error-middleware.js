@@ -1,4 +1,4 @@
-import ApiError from '../exceptions/api.error.js'
+import ApiError from '../exceptions/api-error.js'
 
 
 export default (err, req, res, next) => {

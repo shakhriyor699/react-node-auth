@@ -1,6 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IUser } from "../models/response/User";
 import AuthService from "../services/AuthService";
+import axios from "axios";
+import { AuthResponse } from "../models/response/AuthResponse";
+import { API_URL } from "../http";
 
 
 export const login = createAsyncThunk(
@@ -23,9 +26,19 @@ export const registration = createAsyncThunk(
 export const logout = createAsyncThunk(
   '@@user/logout',
   async (): Promise<void> => {
-    const response = await AuthService.logout()
+    await AuthService.logout()
     localStorage.removeItem('token')
-    return response.data
+  }
+)
+
+export const checkAuth = createAsyncThunk(
+  '@@user/check-auth',
+  async () => {
+    const res = await axios.get<AuthResponse>(`${API_URL}/refresh`, {
+      withCredentials: true
+    })
+    localStorage.setItem('token', res.data.accessToken)
+    return res.data
   }
 )
 
@@ -66,6 +79,11 @@ const userSlice = createSlice({
       })
       .addCase(registration.rejected, (state) => {
         state.isAuth = false
+        state.user = {} as IUser
+      })
+      .addCase(checkAuth.fulfilled, (state, action) => {
+        state.user = action.payload.user
+        state.isAuth = true
       })
   }
 })

@@ -1,8 +1,20 @@
 import React, { useState } from 'react'
+import { useAppDispatch } from '../hooks'
+import { login, registration } from '../features/userSlice'
 
 const LoginForm: React.FC = (): JSX.Element => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const dispatch = useAppDispatch()
+
+  const handleLogin = (email: string, password: string) => {
+    dispatch(login({ email, password }))
+  }
+
+  const handleRegistration = (email: string, password: string) => {
+    dispatch(registration({ email, password }))
+  }
+
 
   return (
     <div>
@@ -18,8 +30,8 @@ const LoginForm: React.FC = (): JSX.Element => {
         type="password"
         placeholder='Пароль'
       />
-      <button>Логин</button>
-      <button>Регистрация</button>
+      <button onClick={() => handleLogin(email, password)}>Логин</button>
+      <button onClick={() => handleRegistration(email, password)}>Регистрация</button>
     </div>
   )
 }

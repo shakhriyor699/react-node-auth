@@ -1,4 +1,4 @@
-import ApiError from '../exceptions/api.error.js'
+import ApiError from '../exceptions/api-error.js'
 import userService from '../service/user-service.js'
 import { validationResult } from 'express-validator'
 
